@@ -1,0 +1,28 @@
+[package]
+name = "ntex-monitoring-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ntex = { version = "2.3", features = ["rustls"] }
+tokio = { version = "1", features = ["full"] }
+rustls = "0.23"
+rustls-pemfile = "2"
+log = "0.4"
+env_logger = "0.11"
+num_cpus = "1.0"
+lazy_static = "1.4"
+
+# Fallback runtime for non-Linux (Windows/macOS)
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+ntex = { version = "2.3", features = ["rustls", "tokio"] }
+
+# Optimized runtime for Linux (io_uring)
+[target.'cfg(target_os = "linux")'.dependencies]
+ntex = { version = "2.3", features = ["rustls", "neon"] }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = 'abort'
