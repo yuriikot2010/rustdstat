@@ -1,5 +1,5 @@
 [package]
-name = "ntex-monitoring-server"
+name = "High performing rps webserver"
 version = "0.1.0"
 edition = "2021"
 
